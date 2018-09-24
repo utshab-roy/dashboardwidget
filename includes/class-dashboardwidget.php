@@ -157,6 +157,14 @@ class Dashboardwidget {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
+		//hook added by me
+		$this->loader->add_action('wp_dashboard_setup', $plugin_admin, 'noticeboard_add_dashboard_widgets' );
+		$this->loader->add_action('wp_dashboard_setup', $plugin_admin, 'example_remove_dashboard_widget' );
+		$this->loader->add_action('init', $plugin_admin, 'create_cbxnotice_custom_post_type' );
+		$this->loader->add_action('add_meta_boxes', $plugin_admin, 'cbx_notice_add_custom_box' );
+		$this->loader->add_action('save_post', $plugin_admin, 'cbxnotice_save_postdata' );
+		$this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'basevalue_admin_script' );
+
 	}
 
 	/**
