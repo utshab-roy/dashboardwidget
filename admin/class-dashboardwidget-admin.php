@@ -144,7 +144,6 @@ class Dashboardwidget_Admin {
 				}
 				echo '<pre>';
 //				var_dump($cbxnotice_role);
-//				echo $slug;
 				echo '</pre>';
 //				echo '</br>';
 				$user              = wp_get_current_user();
@@ -232,11 +231,8 @@ class Dashboardwidget_Admin {
 			<input type="checkbox" name="cbxnotice_role[]" id="<?php echo $key; ?>" value="<?php echo $key; ?>" <?php echo in_array( $key, $cbxnotice_role) ? 'checked' : '' ?>><label
 				for="<?php echo $key; ?>"><?php echo $key; ?></label>
 
-
 		<?php endforeach;?>
 		<!--        </select>-->
-
-
 		<?php
 	}
 
@@ -268,4 +264,4 @@ class Dashboardwidget_Admin {
 		wp_enqueue_style( 'wp-jquery-ui-dialog' );
 	}
 
-}
+}//end of Dashboardwidget_Admin class
