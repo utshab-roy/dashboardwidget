@@ -100,7 +100,6 @@ class Dashboardwidget_Admin {
 
 	}
 
-
 	/**
 	 * This function add the custom dashboard
 	 */
@@ -116,60 +115,10 @@ class Dashboardwidget_Admin {
 	 * Create the function to output the contents of our Dashboard Widget.
 	 */
 	function notice_dashboard_widget_function() {
-//		global $wp_meta_boxes;
-//		echo '<pre>';
-//		var_dump($wp_meta_boxes['dashboard']['normal']['sorted']["notice_board"]);
-//		echo '</pre>';
 		// Display whatever it is you want to show.
-
-		global $post;
-		$args = array(
-			'posts_per_page' => -1,
-			'post_type'      => 'cbxnotice',
-			'order'          => 'ASC',
-			'post_status'    => 'publish',
-
-		);
-		$posts_array = get_posts( $args );
-
-//		$value = get_post_meta($posts_array['ID'], 'cbxnotice_role_meta_key', true);
-//		var_dump($posts_array);
-//		die();
-
-		if ( $posts_array ) {
-			foreach ( $posts_array as $post ) :
-				$cbxnotice_role = get_post_meta( $post->ID, 'cbxnotice_role', true );
-				if ( empty( $cbxnotice_role ) ) {
-					$cbxnotice_role = array();
-				}
-				echo '<pre>';
-//				var_dump($cbxnotice_role);
-				echo '</pre>';
-//				echo '</br>';
-				$user              = wp_get_current_user();
-				$current_user_role = $user->roles;
-//				var_dump($current_user_role);
-				setup_postdata( $post ); ?>
-				<?php
-//				if ( in_array( $cbxnotice_role, $current_user_role ) ):
-				if ( array_intersect( $cbxnotice_role, $current_user_role ) ):
-					?>
-					<li class="title-notice"><?php the_title(); ?></li>
-
-					<div style="display: none;" class="content-notice"><?php the_content(); ?></div>
-
-				<?php
-				endif;
-			endforeach;
-
-			?>
-			<div id="cbx_notice_dialog"></div>
-			<?php
-
-			wp_reset_postdata();
-		}
+        $plugin_notice = new Dashboardwidget_Notice();
+        echo $plugin_notice->get_all_notice();
 	}
-
 
 	// Removing all the default widgets using 'wp_dashboard_setup' hook
 	function example_remove_dashboard_widget() {
@@ -217,33 +166,21 @@ class Dashboardwidget_Admin {
 		$cbxnotice_role = get_post_meta($post->ID, 'cbxnotice_role', true);
 		if(!is_array($cbxnotice_role)) $cbxnotice_role = array();
 
-		/*echo '<pre>';
-		print_r($cbxnotice_role);
-		echo '</pre>';*/
 		?>
 
 		<label for="cbxnotice_role">Who can see the notice:</label>
-		<!--        <select name="cbxnotice_role[]" id="cbxnotice_role" multiple>-->
-		<?php ?>
+
 		<?php foreach ($roles as  $key => $role_details):?>
-			<!--            <option --><?php // echo (in_array($key, $cbxnotice_role))? ' selected="selected"': ''; ?><!-- value="--><?php //echo $key; ?><!--" >--><?php //echo $key;?><!--</option>-->
 
 			<input type="checkbox" name="cbxnotice_role[]" id="<?php echo $key; ?>" value="<?php echo $key; ?>" <?php echo in_array( $key, $cbxnotice_role) ? 'checked' : '' ?>><label
 				for="<?php echo $key; ?>"><?php echo $key; ?></label>
 
 		<?php endforeach;?>
-		<!--        </select>-->
 		<?php
 	}
 
 	function cbxnotice_save_postdata($post_id)
 	{
-		/*echo '<pre>';
-		print_r($_POST['cbxnotice_role']);
-		echo '</pre>';
-
-		exit();*/
-
 		$cbxnotice_role = isset( $_POST['cbxnotice_role'] ) ? $_POST['cbxnotice_role'] : array();
 
 		if (array_key_exists('cbxnotice_role', $_POST)) {
@@ -263,5 +200,10 @@ class Dashboardwidget_Admin {
 		wp_enqueue_script( 'jquery-ui-dialog' );
 		wp_enqueue_style( 'wp-jquery-ui-dialog' );
 	}
+
+
+	function register_notice_widget(){
+		register_widget( 'Dashboardwidget_Notice_Widget' );
+    }
 
 }//end of Dashboardwidget_Admin class

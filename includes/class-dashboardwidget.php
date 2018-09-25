@@ -122,6 +122,16 @@ class Dashboardwidget {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-dashboardwidget-public.php';
 
+		/**
+		 *  The class is responsible for the Dashboard Notice
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-dashboardwidget-notice.php';
+
+		/**
+		 *  The class is responsible for the admin panel Dashboard Notice widget
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-dashboardwidget-notice-widget.php';
+
 		$this->loader = new Dashboardwidget_Loader();
 
 	}
@@ -164,6 +174,8 @@ class Dashboardwidget {
 		$this->loader->add_action( 'add_meta_boxes', $plugin_admin, 'cbx_notice_add_custom_box' );
 		$this->loader->add_action( 'save_post', $plugin_admin, 'cbxnotice_save_postdata' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'basevalue_admin_script' );
+		$this->loader->add_action( 'widgets_init', $plugin_admin, 'register_notice_widget' );
+//		$plugin_widget = new Dashboardwidget_Notice_Widget($this->get_plugin_name(), $this->get_version());
 
 	}
 
@@ -177,19 +189,16 @@ class Dashboardwidget {
 	private function define_public_hooks() {
 
 		$plugin_public = new Dashboardwidget_Public( $this->get_plugin_name(), $this->get_version() );
+//		$plugin_notice = new Dashboardwidget_Notice($this->get_plugin_name(), $this->get_version());
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
-		//adding short-code hook
-		$this->loader->add_action( 'init', $plugin_public, 'add_shortcode_cb' );
-
-		//adding short-code hook for displaying notice
-		$this->loader->add_action( 'init', $plugin_public, 'add_shortcode_notice' );
-
 		//adding hook for public JS file
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'basevalue_public_script' );
 
+		//$this->loader->add_action( 'init', $plugin_public, 'shortcode_notice_callback' );
+		add_shortcode('cbx-notice', array($plugin_public, 'shortcode_notice_callback'));
 
 	}
 
