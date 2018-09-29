@@ -164,11 +164,17 @@ class Dashboardwidget_Admin {
 		$roles = get_editable_roles();
 
 		$cbxnotice_role = get_post_meta($post->ID, 'cbxnotice_role', true);
-		if(!is_array($cbxnotice_role)) $cbxnotice_role = array();
+
+//      user is logged in and $cbxnotice_role is empty / not an array
+		if( is_user_logged_in() && ! is_array( $cbxnotice_role )) {
+			$current_user           = wp_get_current_user();
+			$current_role           = ( array ) $current_user->roles;
+			$cbxnotice_role = ! is_array( $cbxnotice_role ) ? array( $current_role[0] ) : array();
+		}
 
 		?>
 
-		<label for="cbxnotice_role">Who can see the notice:</label>
+		<p for="cbxnotice_role">Who can see the notice:</p>
 
 		<?php foreach ($roles as  $key => $role_details):?>
 
@@ -205,5 +211,22 @@ class Dashboardwidget_Admin {
 	function register_notice_widget(){
 		register_widget( 'Dashboardwidget_Notice_Widget' );
     }
+
+    function set_custom_edit_cbxnotice_columns($columns){
+//	    unset( $columns['date'] );//this will hide the date column
+	    $columns['cbxnotice_author'] = __( 'Role Assigned', 'dashboardwidget' );
+//	    $columns['cbxnotice_publisher'] = __( 'Publisher', 'dashboardwidget' );
+	    return $columns;
+    }
+
+	function custom_cbxnotice_column( $column, $post_id ) {
+
+		switch ( $column ) {
+			case 'cbxnotice_author' :
+				$role_assinged = get_post_meta( $post_id, 'cbxnotice_role', true );
+				_e( implode( ', ', $role_assinged ), 'dashboardwidget' );
+				break;
+		}
+	}
 
 }//end of Dashboardwidget_Admin class

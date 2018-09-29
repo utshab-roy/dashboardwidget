@@ -175,7 +175,10 @@ class Dashboardwidget {
 		$this->loader->add_action( 'save_post', $plugin_admin, 'cbxnotice_save_postdata' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'basevalue_admin_script' );
 		$this->loader->add_action( 'widgets_init', $plugin_admin, 'register_notice_widget' );
-//		$plugin_widget = new Dashboardwidget_Notice_Widget($this->get_plugin_name(), $this->get_version());
+
+//		for column create on the cbxnotice post type
+		$this->loader->add_filter('manage_cbxnotice_posts_columns', $plugin_admin, 'set_custom_edit_cbxnotice_columns');
+		$this->loader->add_action( 'manage_cbxnotice_posts_custom_column', $plugin_admin, 'custom_cbxnotice_column' , 10, 2);
 
 	}
 
