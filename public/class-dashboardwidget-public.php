@@ -114,7 +114,8 @@ class Dashboardwidget_Public {
 
 	public function shortcode_notice_callback(){
 		//creating instance for the Dashboardwidget_Notice class
-		$plugin_notice = new Dashboardwidget_Notice();
+//		$plugin_notice = new Dashboardwidget_Notice();
+		$plugin_notice = Dashboardwidget_Notice::get_instance();
 		return $plugin_notice->get_all_notice();
 	}
 

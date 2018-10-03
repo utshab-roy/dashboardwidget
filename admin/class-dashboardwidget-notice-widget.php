@@ -56,7 +56,8 @@ class Dashboardwidget_Notice_Widget extends WP_Widget {
 		}
 //		echo 'This is the body of the Notice widget...';
         //creating instance for the Dashboardwidget_Notice class
-		$plugin_notice = new Dashboardwidget_Notice();
+//		$plugin_notice = new Dashboardwidget_Notice();
+		$plugin_notice = Dashboardwidget_Notice::get_instance();
 		echo $plugin_notice->get_all_notice();
 
 	}//end of widget function

@@ -24,6 +24,8 @@
  * @author     Utshab Roy <utshab.roy@gmail.com>
  */
 class Dashboardwidget_Notice {
+	// class instance
+	static $instance;
 
 	public function __construct() {
 
@@ -74,6 +76,16 @@ class Dashboardwidget_Notice {
 		ob_end_clean();
 
 		return $notice;
+	}
+
+
+	/** Singleton instance */
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
 	}
 
 }//end of class Dashboardwidget_Notice
