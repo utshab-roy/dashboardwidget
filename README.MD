@@ -80,6 +80,6 @@ License
    [jQuery-ui]: <https://jqueryui.com>
    [PHP]: <http://php.net/>
    [wordpress]: <https://wordpress.org/download/>
-   [Dashboard-Wigdet-Plugin]: <https://github.com/utshab-roy/dashboardwidget/archive/master.zip>
+   [Dashboard-Wigdet-Plugin]: <https://github.com/utshab-roy/dashboardwidget/releases/download/1.0.0/dashboardwidget.zip>
    [GPLv2]: <http://www.gnu.org/licenses/gpl-2.0.html>
    
