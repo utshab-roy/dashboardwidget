@@ -108,13 +108,8 @@ class Dashboardwidget_Public {
 	}
 
 	//callback function for get-notice short-code
-//	public function shortcode_notice_callback(){
-//		add_shortcode('get-notice', array($this, 'get_all_notice'));
-//	}
-
 	public function shortcode_notice_callback(){
-		//creating instance for the Dashboardwidget_Notice class
-//		$plugin_notice = new Dashboardwidget_Notice();
+		//creating singletone instance for the Dashboardwidget_Notice class
 		$plugin_notice = Dashboardwidget_Notice::get_instance();
 		return $plugin_notice->get_all_notice();
 	}
